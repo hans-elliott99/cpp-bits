@@ -1,0 +1,10 @@
+From SDL2 library, (C:/SDL2-2.24.1/x86_64-w64-mingw32/) copy in the include/ and lib/ directories into src, 
+as well as SDL2.dll from the bin/ directory into the project folder.  
+(not that the x86_64-w64-mingw32 folder worked but not the other one.)  
+
+
+https://www.youtube.com/watch?v=jUZZC9UXyFs&ab_channel=SonarSystems  
+https://www.matsson.com/prog/sdl2-mingw-w64-tutorial.php    
+
+https://lazyfoo.net/tutorials/SDL/index.php // complete SDL2 tutorials
+
