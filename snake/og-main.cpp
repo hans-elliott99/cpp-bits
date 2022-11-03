@@ -14,8 +14,6 @@ void generateFood();
 char getMapValue(int value);
 void move(int dx, int dy);
 int changeSpeed();
-void showInstructions();
-void removeInstructions();
 
 
 /* Helpers */
@@ -58,7 +56,7 @@ const int mapwidth = 20;
 const int mapheight = 20;
 const int size = mapwidth * mapheight;
 
-// Map tiles (default to 0)
+// Map tiles
 int map[size];
 
 // Snake position
@@ -67,21 +65,15 @@ int headypos;
 int direction;
 
 // Snake's food quantity (how long is its body)
-int food = 1;
+int food = 4;
 
 // Speed of the game
-enum Speed {a = 350, b = 300, c = 250, d = 100};
+enum Speed {a = 350, b = 250, c = 100, d = 0};
 int gamespeed = 1;
 
 // Game status
 bool running;
-bool wait;
 
-// Display Instructions
-int w_key;
-int a_key;
-int s_key;
-int d_key;
 
 // Execute Game
 int main()
@@ -103,22 +95,6 @@ void run()
 
     // Initialize map & game
     initMap();
-    printTitle();
-    printMap();
-    // Show directions and wait for input to begin game.
-    wait = true;
-    std::cout << "\tPress any key to begin." << std::endl;
-    while (wait)
-    {
-        if (kbhit()) 
-        {
-            clearScreen();
-            removeInstructions();
-            wait = false;
-        }
-    }
-
-    // Begin snake.
     running = true;
     while (running)
     {
@@ -203,7 +179,7 @@ void move(int dx, int dy)
     {  
         // Increase body length, since more food.
         food++;
-        // Generate new food
+        // Generate next food
         generateFood();
     }
     // check if the location is free, otherwise it is a wall or the snake
@@ -221,16 +197,16 @@ void move(int dx, int dy)
 int changeSpeed()
 {
     
-    if (food <= 5) 
+    if (food <= 10) 
     {
         return Speed::a;
     }
-    else if (food > 5 & food <= 20) 
+    else if (food > 10 & food <= 30) 
     {   
         gamespeed = 2;
         return Speed::b;
     }
-    else if (food >= 20 & food < 50) 
+    else if (food > 30 & food <= 50) 
     {
         gamespeed = 3;
         return Speed::c;
@@ -278,39 +254,12 @@ void initMap()
 
     // Generate food
     generateFood();
-
-    // show directions
-    showInstructions();
-
-}
-
-void showInstructions()
-{
-    int startx = mapwidth/2;
-    int starty = mapheight/2;
-    w_key = startx - 1 + (starty * mapwidth);
-    a_key = startx + (starty-1) * mapwidth;
-    s_key = startx + 1 + (starty * mapwidth);
-    d_key = startx + (starty+1) * mapwidth;
-
-    map[w_key] = -3;
-    map[a_key] = -4;
-    map[s_key] = -5;
-    map[d_key] = -6;
-}
-void removeInstructions()
-{
-    map[w_key] = 0;
-    map[a_key] = 0;
-    map[s_key] = 0;
-    map[d_key] = 0;
 }
 
 void generateFood()
 {
     int x = 0;
     int y = 0;
-    srand(time(nullptr));
     do {
         // Generate random x and y coords within map
         x = rand() % (mapwidth - 2) + 1;
@@ -336,14 +285,6 @@ char getMapValue(int value)
         return 'X'; //wall
     case -2: 
         return '$'; //food
-    case -3:
-        return 'W';
-    case -4:
-        return 'A';
-    case -5:
-        return 'S';
-    case -6:
-        return 'D';
     }
     return ' ';
 }
